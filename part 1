@@ -1,0 +1,147 @@
+# Part 1: Key Identification Exercises
+
+## Task 1.1: Superkey and Candidate Key Analysis
+
+### Relation A: Employee
+
+`Employee(EmpID, SSN, Email, Phone, Name, Department, Salary)`
+
+### Sample Data
+
+| EmpID | SSN | Email | Phone | Name | Department | Salary |
+|---|---|---|---|---|---|---:|
+| 101 | 123-45-6789 | john@company.com | 555-0101 | John | IT | 75000 |
+| 102 | 987-65-4321 | mary@company.com | 555-0102 | Mary | HR | 68000 |
+| 103 | 456-78-9123 | bob@company.com | 555-0103 | Bob | IT | 72000 |
+
+### 1. List at least 6 different superkeys
+
+A superkey is a set of one or more attributes that uniquely identifies an employee.
+
+Examples of superkeys:
+
+1. `{EmpID}`
+2. `{SSN}`
+3. `{Email}`
+4. `{EmpID, Name}`
+5. `{EmpID, Department}`
+6. `{EmpID, Salary}`
+7. `{SSN, Name}`
+8. `{Email, Phone}`
+
+The last five examples are superkeys because they contain an attribute that already uniquely identifies an employee.
+
+### 2. Identify all candidate keys
+
+A candidate key is a minimal superkey. It must uniquely identify each employee and must not contain unnecessary attributes.
+
+Based on the given data and the assumption that SSN and Email are unique employee identifiers, the candidate keys are:
+
+- `{EmpID}`
+- `{SSN}`
+- `{Email}`
+
+`Phone` is not considered a candidate key because the requirements do not state that phone numbers must be unique.
+
+### 3. Which candidate key would you choose as the primary key and why?
+
+I would choose `EmpID` as the primary key.
+
+Reasons:
+
+- It is short and simple.
+- It is specifically designed to identify employees.
+- It does not contain sensitive personal information.
+- It is stable and easy to reference from other tables.
+- It can be used as a foreign key in related tables.
+
+Therefore:
+
+**Primary Key: `EmpID`**
+
+### 4. Can two employees have the same phone number?
+
+Yes, two employees can have the same phone number.
+
+Although all phone numbers in the sample data are different, the database requirements do not state that phone numbers must be unique. For example, two employees could share a company phone or a family phone number.
+
+Therefore, `Phone` should not be treated as a candidate key unless a business rule explicitly requires phone numbers to be unique.
+
+---
+
+# Task 1.1: Relation B — Course Registration
+
+### Relation
+
+`Registration(StudentID, CourseCode, Section, Semester, Year, Grade, Credits)`
+
+### Business Rules
+
+- A student can take the same course in different semesters.
+- A student cannot register for the same course section in the same semester.
+- Each course section in a semester has a fixed credit value.
+
+### 1. Minimum attributes needed for the primary key
+
+The minimum attributes needed are:
+
+`{StudentID, CourseCode, Section, Semester, Year}`
+
+This composite key uniquely identifies one student's registration in a particular course section during a particular semester and year.
+
+### Why each attribute is necessary
+
+- `StudentID` — identifies the student.
+- `CourseCode` — identifies the course.
+- `Section` — identifies the specific section of the course.
+- `Semester` — identifies the semester.
+- `Year` — distinguishes the same semester in different years.
+
+For example, a student can take `CS101` in Fall 2025 and again in Fall 2026. Therefore, `Year` is necessary.
+
+### Primary Key
+
+**Primary Key:**
+
+`(StudentID, CourseCode, Section, Semester, Year)`
+
+### 2. Additional candidate keys
+
+No additional candidate key can be determined from the given business rules.
+
+The composite key above is the minimal key required to uniquely identify a registration.
+
+---
+
+# Task 1.2: Foreign Key Design
+
+## Given Tables
+
+### Student
+
+`Student(StudentID, Name, Email, Major, AdvisorID)`
+
+### Professor
+
+`Professor(ProfID, Name, Department, Salary)`
+
+### Course
+
+`Course(CourseID, Title, Credits, DepartmentCode)`
+
+### Department
+
+`Department(DeptCode, DeptName, Budget, ChairID)`
+
+### Enrollment
+
+`Enrollment(StudentID, CourseID, Semester, Grade)`
+
+## Foreign Key Relationships
+
+### 1. Student → Professor
+
+`Student.AdvisorID` references `Professor.ProfID`
+
+```text
+Student.AdvisorID → Professor.ProfID
